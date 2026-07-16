@@ -1,0 +1,71 @@
+# Generated docs
+README.html
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+*.code-workspace
+.ionide/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.Python
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.env
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+pip-log.txt
+
+# Julia
+Manifest.toml
+.CondaPkg/
+deps/deps.jl
+docs/build/
+# R session data
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+
+# R session temp files
+.Rproj.user/
+*-Ex.R
+
+# R package build artifacts
+*.Rcheck/
+*.tar.gz
+src/*.o
+src/*.so
+src/*.dll
+
+# RStudio files
+.Rproj.user
+
+# knitr / rmarkdown intermediates
+*_cache/
+/cache/
+*.utf8.md
+*.knit.md
+
+# renv
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/sandbox/
+renv/staging/
