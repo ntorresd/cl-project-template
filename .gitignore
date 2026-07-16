@@ -38,9 +38,7 @@ deps/deps.jl
 docs/build/
 
 # Wolfram / Mathematica
-# Notebook backup the Front End writes before each save
 *.nb.bak
-# Compiled/binary kernel object cache (DumpSave output)
 *.mx
 # Serialized Wolfram Language expression cache — remove this line if .wxf
 # files are actual generated output you want tracked, not just cache
