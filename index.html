@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ProjectTemplate — scaffold for Claude Code projects</title>
+<meta name="description" content="A reusable scaffold for starting a new Claude Code project: specialized CLAUDE.md, a running session-log artifact, and a GitHub remote." />
+<style>
+  :root {
+    --ink: #1c2321;
+    --ink-soft: #4b544e;
+    --paper: #f5f4ef;
+    --paper-raised: #fbfaf6;
+    --accent: #3f6b52;
+    --accent-soft: #dce6de;
+    --rule: #d8d6cc;
+    --code-ink: #2c3830;
+
+    --font-head: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e7e7e0;
+      --ink-soft: #a9b0a9;
+      --paper: #14181a;
+      --paper-raised: #1b211d;
+      --accent: #7fb89a;
+      --accent-soft: #22332a;
+      --rule: #2b322c;
+      --code-ink: #cfe3d6;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e7e7e0;
+    --ink-soft: #a9b0a9;
+    --paper: #14181a;
+    --paper-raised: #1b211d;
+    --accent: #7fb89a;
+    --accent-soft: #22332a;
+    --rule: #2b322c;
+    --code-ink: #cfe3d6;
+  }
+  :root[data-theme="light"] {
+    --ink: #1c2321;
+    --ink-soft: #4b544e;
+    --paper: #f5f4ef;
+    --paper-raised: #fbfaf6;
+    --accent: #3f6b52;
+    --accent-soft: #dce6de;
+    --rule: #d8d6cc;
+    --code-ink: #2c3830;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    a, .step-num { transition: color 120ms ease, background 120ms ease; }
+  }
+
+  .page {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 6rem;
+  }
+
+  header.masthead {
+    position: relative;
+    padding-bottom: 2.75rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--rule);
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-position: -1px -1px;
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+    mask-image: linear-gradient(to bottom, black, transparent);
+  }
+  header.masthead .masthead-inner {
+    -webkit-mask-image: none;
+    mask-image: none;
+    background: var(--paper);
+    padding-top: 0.25rem;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 2.6rem;
+    line-height: 1.08;
+    margin: 0.5rem 0 0.75rem;
+    text-wrap: balance;
+  }
+  .dek {
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    max-width: 34rem;
+    margin: 0 0 1.25rem;
+  }
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.35rem 0.65rem;
+    background: var(--paper-raised);
+  }
+  .repo-link:hover { border-color: var(--accent); color: var(--accent); }
+  .repo-link::before { content: "⌥"; color: var(--accent); }
+
+  h2 {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin: 0 0 0.35rem;
+    text-wrap: balance;
+  }
+  .section-intro {
+    color: var(--ink-soft);
+    margin: 0 0 2rem;
+    max-width: 38ch;
+  }
+  section { margin-bottom: 4.5rem; }
+  section > .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  p { margin: 0 0 1rem; }
+  a { color: var(--accent); }
+
+  code, pre {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+  code {
+    background: var(--accent-soft);
+    color: var(--code-ink);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    margin: 0.75rem 0 1.1rem;
+  }
+  pre code { background: none; padding: 0; color: var(--ink); }
+
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  ol.steps > li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    gap: 0.15rem 0.9rem;
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  ol.steps > li:first-child { border-top: none; padding-top: 0; }
+  ol.steps > li::before {
+    content: counter(step);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--accent);
+    line-height: 1.6;
+  }
+  ol.steps h3 {
+    grid-column: 2;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.02rem;
+    margin: 0 0 0.4rem;
+  }
+  ol.steps .step-body { grid-column: 2; }
+  ol.steps .step-body > *:last-child { margin-bottom: 0; }
+
+  ul.sub, ol.sub {
+    margin: 0.4rem 0 0.9rem;
+    padding-left: 1.2rem;
+  }
+  ul.sub li, ol.sub li { margin-bottom: 0.35rem; }
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 0.8rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin: 0.9rem 0 1.1rem;
+    font-size: 0.95rem;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .log-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .log-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 0.7rem 1.25rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--accent-soft);
+  }
+  .log-body { padding: 1.4rem 1.25rem 1.6rem; }
+  .qa-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 0.35rem;
+  }
+  .qa-question {
+    font-family: var(--font-head);
+    font-size: 1.15rem;
+    margin: 0 0 1.25rem;
+    text-wrap: balance;
+  }
+  .qa-answer .option {
+    margin: 0 0 1rem;
+  }
+  .qa-answer .option:last-child { margin-bottom: 0; }
+  .qa-answer .option-name {
+    font-weight: 700;
+    display: inline;
+  }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  footer a { color: var(--ink-soft); }
+  footer a:hover { color: var(--accent); }
+
+  ::selection { background: var(--accent-soft); color: var(--code-ink); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="eyebrow">Scaffold · Claude Code project template</div>
+      <h1>ProjectTemplate</h1>
+      <p class="dek">A reusable starting point for a new Claude Code project — a
+      specialized <code>CLAUDE.md</code>, a running session-log artifact, and a
+      GitHub remote — so each new project begins from the same known-good
+      shape.</p>
+      <a class="repo-link" href="https://github.com/ntorresd/cl-project-template">github.com/ntorresd/cl-project-template</a>
+    </div>
+  </header>
+
+  <section id="scaffold">
+    <div class="section-label">§ Scaffold</div>
+    <h2>Setting up a new project</h2>
+    <p class="section-intro">Copy this repository's <code>CLAUDE.md</code> into
+    a new project folder and work through these steps in order.</p>
+
+    <ol class="steps">
+      <li>
+        <h3>Create the project folder</h3>
+        <div class="step-body">
+          <pre><code>mkdir -p ~/Projects/&lt;project-name&gt;
+cd ~/Projects/&lt;project-name&gt;</code></pre>
+        </div>
+      </li>
+
+      <li>
+        <h3>Specialize CLAUDE.md</h3>
+        <div class="step-body">
+          <p>Copy the template in and fill in every bracketed placeholder:</p>
+          <pre><code>cp ~/Projects/ProjectTemplate/CLAUDE.md ./CLAUDE.md</code></pre>
+          <p>Open it and work through each section:</p>
+          <ul class="sub">
+            <li><strong>§1 Role and Persona</strong> — the agent's specialty and how it should relate to you.</li>
+            <li><strong>§2 Project Context</strong> — the central question, goal, or deliverable.</li>
+            <li><strong>§3 Primary References</strong> — anchor sources, priority order.</li>
+            <li><strong>§4 Domain Expertise</strong> — subdomains the agent can assume without re-explaining.</li>
+            <li><strong>§5 Cross-Cutting Synthesis</strong> — delete if the project is narrow; keep and fill in if requests will regularly span multiple sources or subdomains.</li>
+            <li><strong>§6–§8</strong> (Sourcing, Derivations, Interaction Style) — generic and already filled in; adjust only if the project needs a different stance.</li>
+            <li><strong>§9 Formatting</strong> — domain-specific conventions. Delete the LaTeX Input Conventions subsection entirely if there's no LaTeX or custom-macro material.</li>
+            <li><strong>§10 Boundaries</strong> — add hard, project-specific constraints beyond the generic "never fabricate" rule.</li>
+            <li><strong>§11–§12</strong> (Repository Hygiene, Session Log Artifact) — generic, leave as-is.</li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <h3>Add project content</h3>
+        <div class="step-body">
+          <p>Bring in whatever source material the project needs. If a
+          subdirectory is already its own git repository — synced with an
+          external tool such as Overleaf — decide how to handle it before
+          running <code>git init</code> at the project root:</p>
+          <ul class="sub">
+            <li><strong>Exclude it</strong> via <code>.gitignore</code> — simplest; the nested repo stays wholly separate.</li>
+            <li><strong>Fold it in</strong> as plain files — delete its <code>.git</code> and let the outer repo track the files directly, losing the sync link.</li>
+            <li><strong>Git submodule</strong> — <code>git submodule add &lt;url&gt; &lt;path&gt;</code>, preserving the sync link at the cost of operational overhead.</li>
+          </ul>
+          <div class="callout">
+            <p>Skipping this decision and running a blind <code>git add -A</code>
+            will silently record the nested repo as a broken submodule
+            reference with no URL — a common and confusing mistake.</p>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <h3>Write .gitignore</h3>
+        <div class="step-body">
+          <p>At minimum:</p>
+          <pre><code># macOS
+.DS_Store
+
+# anything decided to exclude in step 3, e.g.:
+# some-nested-repo/</code></pre>
+        </div>
+      </li>
+
+      <li>
+        <h3>Initialize git and make the first commit</h3>
+        <div class="step-body">
+          <pre><code>git init
+git add CLAUDE.md .gitignore   # plus whatever else belongs in the first commit
+git status                     # verify nothing unwanted is staged
+git commit -m "Initial commit: project instructions and gitignore"</code></pre>
+        </div>
+      </li>
+
+      <li>
+        <h3>Create the GitHub repository and push</h3>
+        <div class="step-body">
+          <p>Requires the <code>gh</code> CLI, authenticated
+          (<code>gh auth status</code> to check).</p>
+          <pre><code>gh repo create &lt;repo-name&gt; --private --source=. --remote=origin --push
+# use --public instead of --private if the project has no reason to stay private</code></pre>
+          <p>This creates the remote repo, wires it up as <code>origin</code>,
+          and pushes <code>main</code> in one step. Confirm:</p>
+          <pre><code>git remote -v
+gh repo view &lt;owner&gt;/&lt;repo-name&gt; --json visibility,url,defaultBranchRef</code></pre>
+        </div>
+      </li>
+
+      <li>
+        <h3>GitHub Pages for a browsable docs site <span style="font-weight:400; color:var(--ink-soft); font-size:0.85em;">(optional)</span></h3>
+        <div class="step-body">
+          <div class="callout">
+            <p>Only do this if the project's content is fine being public. On
+            a personal (non-organization) GitHub account, Pages sites are
+            publicly viewable regardless of whether the source repo is
+            private — private Pages requires a GitHub Enterprise Cloud
+            organization. If the repo is private specifically to keep its
+            content unpublished, skip this step.</p>
+          </div>
+          <p>Build a <code>gh-pages</code> branch — commonly as an orphan
+          branch, or via a separate <code>git worktree</code> to avoid
+          disturbing the <code>main</code> checkout — push it, then enable
+          Pages and set the repo's homepage:</p>
+          <pre><code>gh api -X POST repos/&lt;owner&gt;/&lt;repo-name&gt;/pages \
+  -f source[branch]=gh-pages -f source[path]=/
+gh repo edit &lt;owner&gt;/&lt;repo-name&gt; --homepage "https://&lt;owner&gt;.github.io/&lt;repo-name&gt;/"</code></pre>
+          <p>This page is that site.</p>
+        </div>
+      </li>
+
+      <li>
+        <h3>First conversation with Claude Code</h3>
+        <div class="step-body">
+          <p>Open the project in Claude Code. The agent picks up
+          <code>CLAUDE.md</code> automatically. On the first substantive turn
+          that produces a derivation, code, or other technical content worth
+          keeping, it starts the running session-log artifact and creates
+          <code>session-log.html</code> per §12 — nothing further to set up
+          manually. See the example below.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="session-log">
+    <div class="section-label">§ Example</div>
+    <h2>A session-log entry</h2>
+    <p class="section-intro">Per §12 of <code>CLAUDE.md</code>, every project
+    keeps a running log of substantive turns as a Claude-native artifact,
+    mirrored to <code>session-log.html</code>. New entries are added
+    newest-first. Here is a template entry, in that format, covering how to
+    open a Claude Code session against a project once <code>CLAUDE.md</code>
+    is in place.</p>
+
+    <div class="log-card">
+      <div class="log-meta">
+        <span>Entry — template</span>
+        <span>session-log.html</span>
+      </div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">Once a project has a <code>CLAUDE.md</code> in
+        place, how do I actually start a Claude Code session against it?</p>
+
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <div class="option">
+            <span class="option-name">VS Code extension.</span>
+            Open the project folder in VS Code, then either install
+            "Claude Code" from the Extensions Marketplace directly, or run
+            <code>claude</code> in VS Code's integrated terminal — it offers
+            to install the companion extension automatically. Once
+            installed, the extension reads <code>CLAUDE.md</code> from the
+            project root as context for every session opened against that
+            folder; no separate loading step is needed. Sessions are opened
+            and driven from the extension's panel and the Command Palette
+            rather than a specific fixed keybinding, since that detail
+            varies by extension version — search the palette for "Claude
+            Code" if the panel isn't already visible.
+          </div>
+          <div class="option">
+            <span class="option-name">JetBrains plugin.</span>
+            The same "Claude Code" plugin is published to the JetBrains
+            Marketplace for IntelliJ-family IDEs, with the same
+            CLAUDE.md-on-open behavior.
+          </div>
+          <div class="option">
+            <span class="option-name">CLI.</span>
+            Run <code>claude</code> from a terminal inside the project
+            directory. This is editor-independent and is what the IDE
+            extensions wrap under the hood.
+          </div>
+          <div class="option">
+            <span class="option-name">Desktop or web app.</span>
+            The desktop app (Mac/Windows) and the web app at
+            <a href="https://claude.ai/code">claude.ai/code</a> cover the
+            same workflow for projects pushed to a connected GitHub
+            repository, for cases where a local editor isn't the point of
+            entry.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>ProjectTemplate</span>
+    <a href="https://github.com/ntorresd/cl-project-template">source on GitHub</a>
+  </footer>
+
+</div>
+</body>
+</html>
