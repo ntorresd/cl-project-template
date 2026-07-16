@@ -134,7 +134,7 @@ path each time so the URL stays stable — do not mint a new artifact per
 turn. Skip turns that are purely administrative or file-management with no
 new technical content; there is nothing to log on those.
 
-For each logged turn, add one entry with:
+For each logged turn, add one entry with (unless otherwise specified by the user):
 - **Question**: a concrete, one- or two-sentence restatement of what was
   asked — not the user's prompt verbatim.
 - **Answer**: the essentials of the response — the key argument, any

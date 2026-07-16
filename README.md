@@ -1,9 +1,7 @@
 # Project Template
 
-Reusable scaffold for starting a new Claude Code project with the same
-structure used across these projects: a specialized `CLAUDE.md`, a running
-session-log Artifact mirrored to `session-log.html`, and a private GitHub
-remote. Copy this folder's `CLAUDE.md` into a new project and work through
+Reusable template for starting a new Claude Code project including: a specialized `CLAUDE.md`, a running
+session-log Artifact mirrored to `session-log.html`, and a private (or public) GitHub remote. Copy this folder's `CLAUDE.md` into a new project and work through
 the steps below.
 
 ## 1. Create the project folder
@@ -22,6 +20,7 @@ cp ~/Projects/ProjectTemplate/CLAUDE.md ./CLAUDE.md
 ```
 
 Open it and work through each section:
+
 - **§1 Role and Persona** — the agent's specialty and how it should relate
   to you.
 - **§2 Project Context** — the central question/goal/deliverable.
@@ -40,6 +39,8 @@ Open it and work through each section:
   the generic "never fabricate" rule already there.
 - **§11–§12** (Repository Hygiene, Session Log Artifact) — generic,
   leave as-is.
+
+You can also promt your way for Claude to fill in each section for you. Proceed carefully and taylor the instructions to your specific problem and preferences.
 
 ## 3. Add project content
 
