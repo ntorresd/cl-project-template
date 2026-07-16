@@ -87,9 +87,20 @@ git commit -m "Initial commit: project instructions and gitignore"
 
 Requires the `gh` CLI, authenticated (`gh auth status` to check).
 
+Decide public vs. private first. Default to `--private` unless the project
+has a specific reason to be visible to anyone (it's a template, a public
+demo, documentation meant to be shared widely, etc.) — it's easy to flip a
+private repo public later (`gh repo edit <owner>/<repo-name>
+--visibility public`), but treat the reverse (public → private) as one-way:
+assume anything ever pushed public has already been seen and mirrored, so
+don't rely on flipping visibility later to un-expose it. If step 7 (GitHub
+Pages) is in the plan, read its limitation note below before deciding —
+on a personal account it overrides the repo's own visibility for
+whatever content ends up published.
+
 ```bash
 gh repo create <repo-name> --private --source=. --remote=origin --push
-# use --public instead of --private if the project has no reason to stay private
+# use --public instead of --private if the project should be publicly visible
 ```
 
 This creates the remote repo, wires it up as `origin`, and pushes `main`
@@ -100,22 +111,61 @@ git remote -v
 gh repo view <owner>/<repo-name> --json visibility,url,defaultBranchRef
 ```
 
-## 7. (Optional) GitHub Pages for a browsable docs site
+## 7. (Optional) GitHub Pages: a docs site that rebuilds itself
 
-Only do this if the project's content is fine being public. **On a
-personal (non-organization) GitHub account, Pages sites are publicly
-viewable on the internet regardless of whether the source repo is
-private** — private Pages requires an organization on GitHub Enterprise
-Cloud. If the repo is private specifically to keep its content
-unpublished, skip this step.
+Only do this if the project's content is fine being public.
 
-If proceeding: build a `gh-pages` branch (commonly as an orphan branch, or
-via a separate `git worktree` to avoid disturbing the `main` checkout),
-push it, then enable Pages and set the repo's homepage:
+**Limitation for personal (non-organization) GitHub accounts:** a Pages
+site is publicly viewable on the internet regardless of the source repo's
+visibility — there is no private-Pages option outside a GitHub Enterprise
+Cloud organization. A private repo with Pages enabled keeps its code and
+history hidden but leaks whatever the Pages site itself renders. If the
+repo is private specifically to keep its content unpublished, skip this
+step, or scope carefully what the generated page actually includes.
+
+This template's own site (`site/template.html`, `site/build.py`,
+`.github/workflows/pages.yml`) is a working reference for the pattern: a
+GitHub Actions workflow rebuilds a static HTML shell from `README.md` on
+every push to `main` that touches it, and deploys via GitHub's native
+Actions-based Pages deployment — no `gh-pages` branch to hand-maintain.
+See it live at the repo's homepage, or in the source for the exact shape.
+
+**To set this up for a new project, prompting Claude Code is a valid and
+often faster path than doing it by hand** — this is an AI-assisted
+template, and this is one-time, low-stakes-to-redo setup work. For
+example:
+
+> Set up a GitHub Actions workflow that rebuilds and deploys a docs site
+> to GitHub Pages whenever README.md (or the site source) changes on
+> main. Use `~/Projects/ProjectTemplate/site/` as a reference for the
+> pattern — a `template.html` shell plus a small build script that
+> renders the docs into it — but write fresh copy and design for this
+> project's own subject matter rather than copying the template's page
+> verbatim. Use native GitHub Actions Pages deployment (`build_type:
+> workflow`), not a `gh-pages` branch.
+
+The shape to ask for (or build by hand) is:
+
+- A `site/template.html` shell (styling, any static sections) with a
+  placeholder for generated content, and a `site/build.py` that renders
+  the project's docs (e.g. `README.md`) into that placeholder and writes
+  `dist/index.html`.
+- `.github/workflows/pages.yml`, triggered on `push` to `main`
+  (path-filtered to the docs source and `site/**`), that builds and
+  deploys via `actions/configure-pages`, `actions/upload-pages-artifact`,
+  and `actions/deploy-pages`.
+
+One-time setup: create the Pages site with Actions as its source —
 
 ```bash
-gh api -X POST repos/<owner>/<repo-name>/pages \
-  -f source[branch]=gh-pages -f source[path]=/
+gh api -X POST repos/<owner>/<repo-name>/pages -f build_type=workflow
+# if Pages was already enabled some other way (e.g. a gh-pages branch),
+# use -X PUT instead of -X POST to switch it
+```
+
+Then push to `main` to trigger the first build, and set the homepage:
+
+```bash
 gh repo edit <owner>/<repo-name> --homepage "https://<owner>.github.io/<repo-name>/"
 ```
 

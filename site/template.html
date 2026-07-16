@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ProjectTemplate — a starting point for Claude Code projects</title>
+<title>Claude Assisted Project Template</title>
 <meta name="description" content="A reusable starting point for a new Claude Code project: specialized CLAUDE.md, a running session-log artifact, and a GitHub remote." />
 <style>
   :root {
@@ -110,7 +110,7 @@
   }
   .dek {
     font-size: 1.1rem;
-    color: var(--ink-soft);
+    color: var(--ink);
     max-width: 34rem;
     margin: 0 0 1.25rem;
   }
@@ -197,6 +197,13 @@
   .setup h3 + pre,
   .setup h3 + ul,
   .setup h3 + ol { margin-top: 0; }
+  .setup blockquote {
+    border-left: 3px solid var(--rule);
+    margin: 0.9rem 0 1.1rem;
+    padding: 0.1rem 0 0.1rem 1rem;
+    color: var(--ink-soft);
+  }
+  .setup blockquote p:last-child { margin-bottom: 0; }
 
   .log-card {
     background: var(--paper-raised);
@@ -265,7 +272,7 @@
   <header class="masthead">
     <div class="masthead-inner">
       <div class="eyebrow">Claude Code project template</div>
-      <h1>ProjectTemplate</h1>
+      <h1>Claude Assisted Project Template</h1>
       <p class="dek">A reusable starting point for a new Claude Code project — a
       specialized <code>CLAUDE.md</code>, a running session-log artifact, and a
       GitHub remote — so each new project begins from the same known-good
@@ -344,7 +351,7 @@
   </section>
 
   <footer>
-    <span>ProjectTemplate</span>
+    <span>Project Template</span>
     <a href="https://github.com/ntorresd/cl-project-template">source on GitHub</a>
   </footer>
 
