@@ -125,6 +125,28 @@ committing or pushing them is not, by default. If work needs to be
 captured in git, say so and leave it as uncommitted working-tree changes
 for the user to review and commit themselves.
 
+When asked to commit, write the message per the [Conventional Commits
+convention](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13):
+
+```
+<type>[(optional scope)][!]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+- **Type** — one of: `feat`, `fix`, `refactor`, `perf`, `style`, `test`,
+  `docs`, `build`, `ops`, `chore`.
+- **Scope** — optional, parenthesized, gives context (e.g. `fix(parser):
+  ...`); never use an issue/ticket identifier as the scope.
+- **Description** — imperative present tense ("add", not "added"/"adds"),
+  no capitalized first letter, no trailing period.
+- **Breaking changes** — mark with `!` before the colon (e.g. `feat(api)!:
+  ...`) and add a `BREAKING CHANGE:` footer explaining it.
+- If the user supplies the exact commit message text, use it as given
+  rather than reformatting it to fit this convention.
+
 ## 12. Session Log Artifact
 
 For any conversation that produces nontrivial derivations, equations,
