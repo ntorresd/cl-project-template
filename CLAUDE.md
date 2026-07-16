@@ -179,9 +179,9 @@ Each conversation maintains its own log artifact — start one on the first
 substantive turn. Don't try to locate or continue a prior conversation's
 log; if the user wants one continued, they'll paste its URL.
 
-A copy of the current log also lives at `session-log.html` in the project
+A copy of the current log also lives at `cl-log.html` in the project
 root, for viewing without claude.ai. Every time the Artifact is
 republished with a new or changed entry, write the exact same HTML content
-to `session-log.html` as well — the two must stay byte-identical. This is
+to `cl-log.html` as well — the two must stay byte-identical. This is
 a plain file write, not a git action; per §11, leave it uncommitted for
 the user to review and commit themselves.

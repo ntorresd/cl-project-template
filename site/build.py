@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the GitHub Pages site: render README.md's steps into site/template.html."""
 import re
+import shutil
 from pathlib import Path
 
 import markdown
@@ -31,3 +32,8 @@ page = template.replace("{{STEPS_CONTENT}}", html)
 DIST.mkdir(exist_ok=True)
 (DIST / "index.html").write_text(page)
 print(f"Wrote {DIST / 'index.html'} ({len(page)} bytes)")
+
+# cl-log.html is a self-contained file in its own right (also published as a
+# claude.ai Artifact per CLAUDE.md §12), so it's copied verbatim, not rendered.
+shutil.copy(ROOT / "cl-log.html", DIST / "cl-log.html")
+print(f"Copied {DIST / 'cl-log.html'}")

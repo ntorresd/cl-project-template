@@ -212,47 +212,10 @@
   }
   .setup blockquote p:last-child { margin-bottom: 0; }
 
-  .log-card {
-    background: var(--paper-raised);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .log-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    padding: 0.7rem 1.25rem;
-    border-bottom: 1px solid var(--rule);
-    background: var(--accent-soft);
-  }
-  .log-body { padding: 1.4rem 1.25rem 1.6rem; }
-  .qa-label {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 0.35rem;
-  }
-  .qa-question {
-    font-family: var(--font-head);
-    font-size: 1.15rem;
-    margin: 0 0 1.25rem;
-    text-wrap: balance;
-  }
-  .qa-answer .option { margin: 0 0 1rem; }
-  .qa-answer .option:last-child { margin-bottom: 0; }
-  .qa-answer .option-name { font-weight: 700; display: inline; }
   .section-intro {
     color: var(--ink-soft);
-    margin: 0 0 2rem;
-    max-width: 38ch;
+    margin: 0 0 1.25rem;
+    max-width: 42rem;
   }
 
   footer {
@@ -319,69 +282,21 @@
   </section>
 
   <section id="session-log">
-    <div class="section-label">§ Example</div>
-    <h2>A session-log entry</h2>
+    <div class="section-label">§ Log</div>
+    <h2>Session log</h2>
     <p class="section-intro">Per §12 of <code>CLAUDE.md</code>, every project
-    keeps a running log of substantive turns as a Claude-native artifact,
-    mirrored to <code>session-log.html</code>. New entries are added
-    newest-first. Here is a template entry, in that format, covering how to
-    open a Claude Code session against a project once <code>CLAUDE.md</code>
-    is in place.</p>
-
-    <div class="log-card">
-      <div class="log-meta">
-        <span>Entry — template</span>
-        <span>session-log.html</span>
-      </div>
-      <div class="log-body">
-        <div class="qa-label">Question</div>
-        <p class="qa-question">Once a project has a <code>CLAUDE.md</code> in
-        place, how do I actually start a Claude Code session against it?</p>
-
-        <div class="qa-label">Answer</div>
-        <div class="qa-answer">
-          <div class="option">
-            <span class="option-name">VS Code extension.</span>
-            Open the project folder in VS Code, then either install
-            "Claude Code" from the Extensions Marketplace directly, or run
-            <code>claude</code> in VS Code's integrated terminal — it offers
-            to install the companion extension automatically. Once
-            installed, the extension reads <code>CLAUDE.md</code> from the
-            project root as context for every session opened against that
-            folder; no separate loading step is needed. Sessions are opened
-            and driven from the extension's panel and the Command Palette
-            rather than a specific fixed keybinding, since that detail
-            varies by extension version — search the palette for "Claude
-            Code" if the panel isn't already visible.
-          </div>
-          <div class="option">
-            <span class="option-name">JetBrains plugin.</span>
-            The same "Claude Code" plugin is published to the JetBrains
-            Marketplace for IntelliJ-family IDEs, with the same
-            CLAUDE.md-on-open behavior.
-          </div>
-          <div class="option">
-            <span class="option-name">CLI.</span>
-            Run <code>claude</code> from a terminal inside the project
-            directory. This is editor-independent and is what the IDE
-            extensions wrap under the hood.
-          </div>
-          <div class="option">
-            <span class="option-name">Desktop or web app.</span>
-            The desktop app (Mac/Windows) and the web app at
-            <a href="https://claude.ai/code">claude.ai/code</a> cover the
-            same workflow for projects pushed to a connected GitHub
-            repository, for cases where a local editor isn't the point of
-            entry.
-          </div>
-        </div>
-      </div>
-    </div>
+    keeps a running log of substantive Claude Code turns as a Claude-native
+    artifact, mirrored to an HTML file in the repo. It only grows, so it
+    lives on its own page rather than inline here.</p>
+    <a class="repo-link" href="cl-log.html">Read the session log →</a>
   </section>
 
   <footer>
     <span>Project Template</span>
-    <a href="https://github.com/ntorresd/cl-project-template">source on GitHub</a>
+    <span>
+      <a href="cl-log.html">session log</a> ·
+      <a href="https://github.com/ntorresd/cl-project-template">source on GitHub</a>
+    </span>
   </footer>
 
 </div>

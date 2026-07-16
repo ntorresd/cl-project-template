@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Session Log — Claude Assisted Project Template</title>
+<meta name="description" content="Running log of substantive Claude Code turns for the ProjectTemplate repository, per CLAUDE.md §12." />
+<style>
+  :root {
+    --ink: #1c2321;
+    --ink-soft: #4b544e;
+    --paper: #f5f4ef;
+    --paper-raised: #fbfaf6;
+    --accent: #3f6b52;
+    --accent-soft: #dce6de;
+    --rule: #d8d6cc;
+
+    --font-head: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e7e7e0;
+      --ink-soft: #a9b0a9;
+      --paper: #14181a;
+      --paper-raised: #1b211d;
+      --accent: #7fb89a;
+      --accent-soft: #22332a;
+      --rule: #2b322c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e7e7e0; --ink-soft: #a9b0a9; --paper: #14181a; --paper-raised: #1b211d;
+    --accent: #7fb89a; --accent-soft: #22332a; --rule: #2b322c;
+  }
+  :root[data-theme="light"] {
+    --ink: #1c2321; --ink-soft: #4b544e; --paper: #f5f4ef; --paper-raised: #fbfaf6;
+    --accent: #3f6b52; --accent-soft: #dce6de; --rule: #d8d6cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    a, .back-link, .theme-toggle { transition: color 120ms ease, background 120ms ease, border-color 120ms ease; }
+  }
+
+  .page { max-width: 52rem; margin: 0 auto; padding: 4.5rem 2rem 6rem; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .back-link {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin: 0.9rem 0 1.5rem;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  h1 {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 2.4rem;
+    line-height: 1.1;
+    margin: 0.4rem 0 0.9rem;
+    text-wrap: balance;
+  }
+  .dek {
+    font-size: 1.05rem;
+    color: var(--ink);
+    max-width: 40rem;
+    margin: 0 0 3rem;
+  }
+
+  p { margin: 0 0 1rem; max-width: 42rem; }
+  a { color: var(--accent); }
+
+  code, pre { font-family: var(--font-mono); font-size: 0.85em; }
+  code {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+  }
+  pre {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    margin: 0.75rem 0 1.1rem;
+    max-width: 42rem;
+  }
+  pre code { background: none; border: none; padding: 0; color: var(--ink); }
+
+  .entries { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .log-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .log-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 0.7rem 1.25rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--accent-soft);
+  }
+  .log-body { padding: 1.4rem 1.25rem 1.6rem; }
+  .qa-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 0.35rem;
+  }
+  .qa-question {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    margin: 0 0 1.1rem;
+    max-width: 42rem;
+    text-wrap: balance;
+  }
+  .qa-answer p:last-child { margin-bottom: 0; }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  footer a { color: var(--ink-soft); }
+  footer a:hover { color: var(--accent); }
+
+  .theme-toggle {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.5rem;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.15rem;
+    height: 2.15rem;
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--ink);
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+</style>
+</head>
+<body>
+<button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light theme">☾</button>
+<div class="page">
+
+  <header>
+    <div class="eyebrow">Claude Code project template</div>
+    <a class="back-link" href="index.html">← Index</a>
+    <h1>Session Log</h1>
+    <p class="dek">A running log of substantive Claude Code turns in this
+    repository, per §12 of <code>CLAUDE.md</code> — kept here instead of on
+    the index page because it only grows. Newest first.</p>
+  </header>
+
+  <section class="entries">
+
+    <div class="log-card">
+      <div class="log-meta"><span>Entry</span><span>Site structure</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">Move the growing session-log Artifact out of
+        <code>index.html</code> onto its own page in the same domain, linked
+        from the index, and evaluate a left sidebar nav for the site's
+        pages.</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p>Split the log out to this file, <code>cl-log.html</code>,
+          published at the site root alongside <code>index.html</code> and
+          linked from it. It's the actual §12 Artifact mirror — self-contained
+          (inline styles, no shared stylesheet) because a claude.ai Artifact
+          can't consume an external CSS file or keep a `&lt;head&gt;` of its
+          own, so byte-identical parity between the published Artifact and
+          this file only works if the file has no outside dependencies.
+          <code>site/build.py</code> now copies it into <code>dist/</code>
+          unmodified, and the deploy workflow's trigger paths include it.
+          The old inline demo entry on the index page (a synthetic "how do I
+          open a session" example) moved here instead, as the log's founding
+          reference entry, since it was never a real conversation turn.</p>
+          <p>On the sidebar: recommended against one for now — two pages
+          don't justify a persistent rail, and it would immediately eat back
+          into the horizontal room a previous turn widened the layout to
+          get. A lightweight top nav (a couple of text links near the
+          masthead) fits a small, growing-by-pages-not-by-count site better;
+          revisit a sidebar if the page count grows meaningfully.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-meta"><span>Entry</span><span>Repository hygiene</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">Add an instruction that commit messages
+        should follow the Conventional Commits convention, per a linked
+        gist.</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p>Added to <code>CLAUDE.md</code> §11: the
+          <code>&lt;type&gt;(scope)!: description</code> format, the type
+          enum (<code>feat</code>/<code>fix</code>/<code>refactor</code>/<code>perf</code>/<code>style</code>/<code>test</code>/<code>docs</code>/<code>build</code>/<code>ops</code>/<code>chore</code>),
+          the rule against issue IDs as scopes, imperative-present /
+          no-capital / no-period description rules, and the
+          <code>!</code> + <code>BREAKING CHANGE:</code> footer for breaking
+          changes — with a carve-out to use exact user-supplied message text
+          verbatim rather than reformatting it.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-meta"><span>Entry</span><span>Site design fix</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">The "Setting up a new project" intro
+        paragraph doesn't fit the page width, and the repo link above it is
+        barely visible — fix both.</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p>The faint link was a real bug: the decorative grid's fade-out
+          was implemented as a <code>mask-image</code> on the whole
+          <code>header.masthead</code> element, which masks everything
+          painted inside it, not just its own background — so real content
+          lower in the header (the repo link) was fading out along with the
+          grid pattern, which was only ever meant to fade. Moved the grid
+          and its mask onto a <code>::before</code> pseudo-element behind
+          the content, so only the decoration fades and the content stays
+          fully opaque. The intro paragraph had a leftover
+          <code>max-width: 38ch</code> from before the page was widened;
+          removed it so it inherits the section's 42rem measure like every
+          other paragraph.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-meta"><span>Entry</span><span>Site design</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">Consider adding a light/dark theme toggle
+        button, and consider giving the page more horizontal room — the
+        margins feel too big.</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p>Widened the page column from 42rem to 52rem, and capped body
+          prose (paragraphs, list items, log-card answers) at 42rem
+          separately, so line length stays readable while code blocks and
+          cards get to use the extra width. Added a small fixed circular
+          button (☾/☀, top-right) that overrides the OS-driven theme via a
+          <code>data-theme</code> attribute on <code>&lt;html&gt;</code>,
+          persisted in <code>localStorage</code> — the token system already
+          supported both themes from the start, so this only needed the
+          actual switch.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-meta"><span>Entry</span><span>Site design fix</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">The deployed site's intro paragraph looks
+        faded and hard to read, and the inline code chips are barely
+        readable — fix.</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p>The intro paragraph (<code>.dek</code>) used the same muted
+          <code>--ink-soft</code> tone as footer/meta text, at a size where
+          that read as washed out; switched to full <code>--ink</code>. The
+          inline code chips used <code>--accent-soft</code> as background,
+          which in dark mode is barely lighter than the page background
+          itself — good text-to-chip contrast, but almost no chip-to-page
+          separation, so the chip read as a blur even though the text
+          inside it was legible on its own. Restyled inline code to match
+          the already-legible <code>pre</code> block treatment:
+          <code>--paper-raised</code> background, a visible
+          <code>--rule</code> border, full-strength text.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-meta"><span>Entry</span><span>README, GitHub Pages</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">Rewrite the README so users can deliberately
+        decide public vs. private, document how to set up the Pages
+        automation (prompting Claude counts as valid instructions here,
+        since this is an AI-assisted template), and call out the free-tier
+        limitation of a public Pages site on a private repo.</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p>Step 6 now frames public/private as a real decision: default
+          private, treat flipping to public later as effectively one-way
+          (anything ever pushed public may already be mirrored), and
+          cross-references step 7's caveat before deciding. Step 7 rewritten
+          to document the actual Actions-based pattern from this repo as a
+          reference implementation, gives a copy-pasteable prompt for
+          delegating the setup to Claude Code in a new project rather than
+          only listing raw commands, and leads with the limitation that
+          Pages sites are always public on personal GitHub accounts
+          regardless of the source repo's visibility. Rebuilding surfaced a
+          second Python-Markdown quirk: fenced code blocks nested inside a
+          list item get mis-parsed as one inline <code>&lt;code&gt;</code>
+          span, because the two triple-backtick fences get read as matching
+          inline-code delimiters once list-continuation indentation defeats
+          the fenced-code extension — restructured that list so the
+          commands sit outside it, rather than working around the parser.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-meta"><span>Entry</span><span>GitHub Actions</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">Configure GitHub Actions so the docs site
+        updates automatically whenever a relevant file changes on
+        <code>main</code>.</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p>Two design choices settled the shape: native GitHub Actions
+          Pages deployment (<code>build_type: workflow</code>) instead of
+          committing built output to the <code>gh-pages</code> branch, and
+          generating the setup steps straight from <code>README.md</code>'s
+          markdown rather than hand-styled callouts, so there's nothing to
+          keep in sync by hand. Moved the site source onto
+          <code>main</code>: <code>site/template.html</code> (shell) +
+          <code>site/build.py</code> (renders <code>README.md</code>'s
+          <code>##</code> steps into the shell via Python-Markdown) +
+          <code>.github/workflows/pages.yml</code> (push-to-main trigger,
+          path-filtered, deploys via
+          <code>actions/configure-pages</code> +
+          <code>actions/upload-pages-artifact</code> +
+          <code>actions/deploy-pages</code>). Found and fixed a real bug
+          while verifying the build: Python-Markdown, unlike GitHub's own
+          renderer, won't parse a bullet list that immediately follows a
+          paragraph without a blank line between them — fixed the
+          formatting inconsistency directly in <code>README.md</code> rather
+          than working around it in the build script. Switched the repo's
+          Pages source to <code>build_type=workflow</code> via the API,
+          pushed, first workflow run succeeded.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-meta"><span>Entry</span><span>GitHub Pages, first publish</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">Follow README step 7 to publish a browsable
+        GitHub Pages site for this repo, and generate a template Artifact
+        page per §12 to show on it.</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p>Steps 1–6 were already done (repo public, <code>gh</code>
+          authenticated), clearing step 7's only guardrail. Built a
+          self-contained <code>index.html</code> in a documentation
+          register — system serif/sans/mono type trio, muted pine-green
+          accent, hairline rules, a graph-paper masthead nodding at
+          "scaffold" — rendering the README's setup steps plus a §12-format
+          example log entry. Deployed via an orphan <code>gh-pages</code>
+          branch pushed through a throwaway <code>git worktree</code>, so
+          <code>main</code> stayed untouched throughout; enabled Pages via
+          <code>gh api</code> and set the repo homepage. First version went
+          live at
+          <a href="https://ntorresd.github.io/cl-project-template/">ntorresd.github.io/cl-project-template</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-meta"><span>Reference</span><span>Not a conversation turn</span></div>
+      <div class="log-body">
+        <div class="qa-label">Question</div>
+        <p class="qa-question">Once a project has a <code>CLAUDE.md</code>
+        in place, how do I actually start a Claude Code session against
+        it?</p>
+        <div class="qa-label">Answer</div>
+        <div class="qa-answer">
+          <p><strong>VS Code extension.</strong> Open the project folder in
+          VS Code, then either install "Claude Code" from the Extensions
+          Marketplace directly, or run <code>claude</code> in VS Code's
+          integrated terminal — it offers to install the companion
+          extension automatically. Once installed, the extension reads
+          <code>CLAUDE.md</code> from the project root as context for every
+          session opened against that folder; no separate loading step is
+          needed.</p>
+          <p><strong>JetBrains plugin.</strong> The same "Claude Code"
+          plugin is published to the JetBrains Marketplace for
+          IntelliJ-family IDEs, with the same CLAUDE.md-on-open behavior.</p>
+          <p><strong>CLI.</strong> Run <code>claude</code> from a terminal
+          inside the project directory — editor-independent, and what the
+          IDE extensions wrap under the hood.</p>
+          <p><strong>Desktop or web app.</strong> The desktop app (Mac/
+          Windows) and the web app at
+          <a href="https://claude.ai/code">claude.ai/code</a> cover the same
+          workflow for projects pushed to a connected GitHub repository.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <span>Project Template — session log</span>
+    <span>
+      <a href="index.html">index</a> ·
+      <a href="https://github.com/ntorresd/cl-project-template">source on GitHub</a>
+    </span>
+  </footer>
+
+</div>
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById("theme-toggle");
+    var stored = localStorage.getItem("theme");
+    if (stored === "dark" || stored === "light") root.setAttribute("data-theme", stored);
+    function current() {
+      var attr = root.getAttribute("data-theme");
+      if (attr) return attr;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    function sync() {
+      var theme = current();
+      btn.textContent = theme === "dark" ? "☀" : "☾";
+      btn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+    }
+    btn.addEventListener("click", function () {
+      var next = current() === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      sync();
+    });
+    sync();
+  })();
+</script>
+</body>
+</html>

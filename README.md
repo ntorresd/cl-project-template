@@ -1,7 +1,8 @@
 # Project Template
 
 Reusable template for starting a new Claude Code project including: a specialized `CLAUDE.md`, a running
-session-log Artifact mirrored to `session-log.html`, and a private (or public) GitHub remote. Copy this folder's `CLAUDE.md` into a new project and work through
+session-log Artifact mirrored to an HTML file in the repo (`cl-log.html` in
+this one — the name is a per-project choice, see §12 of `CLAUDE.md`), and a private (or public) GitHub remote. Copy this folder's `CLAUDE.md` into a new project and work through
 the steps below.
 
 ## 1. Create the project folder
@@ -174,5 +175,5 @@ gh repo edit <owner>/<repo-name> --homepage "https://<owner>.github.io/<repo-nam
 Open the project in Claude Code. The agent will pick up `CLAUDE.md`
 automatically. On the first substantive turn that produces a derivation,
 code, or other technical content worth keeping, it will start the running
-session-log Artifact and create `session-log.html` per §12 — nothing
-further to set up manually.
+session-log Artifact and create its mirror file per §12 — nothing further
+to set up manually.
