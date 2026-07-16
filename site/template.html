@@ -133,6 +133,13 @@
   }
   .repo-link:hover { border-color: var(--accent); color: var(--accent); }
   .repo-link::before { content: "⌥"; color: var(--accent); }
+  .repo-link.log-link::before { content: "§"; }
+
+  .masthead-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
 
   h2 {
     font-family: var(--font-head);
@@ -269,7 +276,10 @@
       specialized <code>CLAUDE.md</code>, a running session-log artifact, and a
       GitHub remote — so each new project begins from the same known-good
       shape.</p>
-      <a class="repo-link" href="https://github.com/ntorresd/cl-project-template">github.com/ntorresd/cl-project-template</a>
+      <div class="masthead-links">
+        <a class="repo-link" href="https://github.com/ntorresd/cl-project-template">github.com/ntorresd/cl-project-template</a>
+        <a class="repo-link log-link" href="cl-log.html">Session log →</a>
+      </div>
     </div>
   </header>
 
